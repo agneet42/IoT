@@ -4,7 +4,7 @@ from collections import Counter
 
 f = csv.reader(open("only_sensors.csv","r"))
 
-format = csv.writer(open("weka.csv","w"))
+format = csv.writer(open("weka1.csv","w"))
 
 sensors_arr = []
 
@@ -28,14 +28,16 @@ while(k==0):
 		start = end
 		end = end + 3
 
-
 final_array = arr[0:(len(arr)-1)]
+
 
 s2 = ["004","048","100","141","185","273","317","358","400","047","099","140","184","232","274","318","359"]
 
 for elements in s2:
 	final_array.append(elements)
 
+
+c = 0
 for file in final_array:
 	f1 = csv.reader(open("%s.csv" %file,"r"))
 	iter_arr = []
@@ -44,24 +46,25 @@ for file in final_array:
 			iter_arr.append([row[0],row[1],row[3]])
 
 	sensors = []
-	print(file)
+	c = c + 1
+	print(file,c)
 	for i in range(0,len(iter_arr)):
-		arr = iter_arr[i]
-		if("-start" in arr[2]):
+		arr1 = iter_arr[i]
+		if("-start" in arr1[2]):
 			activity = ""
-			for char in arr[2]:
+			for char in arr1[2]:
 				if(char=="-"):
 					break
 				else:
 					activity = activity + char
-			if(int(activity)<=16):
+			'''if(int(activity)<=16):
 				to_print = activity
 				activity = activity + "-end"
-				start = arr[0]
+				start = arr1[0]
 				count = [0]*len(sensors_arr)
 				while(True):
-					i = i + 1
 					arr2 = iter_arr[i]
+					i = i + 1
 					if(activity in arr2[2]):
 						sensors.append(arr2[1])
 						end = arr2[0]
@@ -79,9 +82,164 @@ for file in final_array:
 					else:
 						sensors.append(arr2[1])	
 				row = [tdelta]+ count + [to_print]
-				format.writerow(row)
-			elif(int(activity)>=17 and int(activity)<=17):
+				format.writerow(row)'''
+			
+			if(int(activity)>=17 and int(activity)<=24):
 				to_print = activity
+				backup = "-start"
+				activity = activity + "-end"
+				start = arr1[0]
+				f = 0
+				j = i
+				count = [0]*len(sensors_arr)
+				while(True):
+					arr2 = iter_arr[j]
+					var = arr2[2]
+					if((backup in arr2[2]) and var[0:2] != to_print):
+						if(f==0):
+							i = j
+							f = 1
+						sensors.append(arr2[1])
+						j = j + 1
+					elif(activity in arr2[2]):
+						sensors.append(arr2[1])
+						end = arr2[0]
+						fmt = "%H:%M:%S.%f"
+						tdelta = datetime.strptime(end, fmt) - datetime.strptime(start, fmt)
+						dict1 = {}
+						dict1 = Counter(sensors)
+						for key in dict1:
+							for index in range(0,len(sensors_arr)):
+								if(key == sensors_arr[index]):
+									count[index] = dict1[key]
+									break
+						sensors = []
+						if(f==0):
+							i = j
+						break
+					else:
+						sensors.append(arr2[1])
+						j=j+1
+				row = [tdelta]+ count + [to_print]
+				format.writerow(row)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			'''if(int(activity)>=17 and int(activity)<=24):
+				to_print = activity
+				start = arr1[0]
+				count = [0]*len(sensors_arr)
+				backup = activity
+				activity = activity + "-end"
+				s = "-start"
+				s1 = "-end"
+				j = i
+				f = 0
+				while(True):
+					arr2 = iter_arr[j]
+					j = j + 1
+					if(f == 1):
+						if(activity in arr2[2]):
+							end = arr2[0]
+							fmt = "%H:%M:%S.%f"
+							tdelta = datetime.strptime(end, fmt) - datetime.strptime(start, fmt)
+							dict1 = {}
+							dict1 = Counter(sensors)
+							for key in dict1:
+								for index in range(0,len(sensors_arr)):
+									if(key == sensors_arr[index]):
+										count[index] = dict1[key]
+										break
+							sensors = []
+							f=0
+							break
+					elif(s in arr2[2] or s1 in arr2[2] and not(backup+"-start" in arr2[2])):
+						if(activity in arr2[2]):
+							end = arr2[0]
+							fmt = "%H:%M:%S.%f"
+							tdelta = datetime.strptime(end, fmt) - datetime.strptime(start, fmt)
+							dict1 = {}
+							dict1 = Counter(sensors)
+							for key in dict1:
+								for index in range(0,len(sensors_arr)):
+									if(key == sensors_arr[index]):
+										count[index] = dict1[key]
+										break
+							sensors = []
+							break
+						else:
+							i = j
+							f = 1
+							sensors.append(arr2[1])
+					else:
+						sensors.append(arr2[1])
+				row = [tdelta]+ count + [to_print]
+				format.writerow(row)'''
+
+
+				
 				
 
 
