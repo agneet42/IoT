@@ -23,6 +23,7 @@ arr_both = np.intersect1d(a,b)
 
 
 arr_final = arr_both.tolist()
+# print(arr_final)
 
 a = csv.reader(open("result_spatio1.csv","r"))
 
@@ -82,6 +83,46 @@ for arr in val_social1:
 	val_social2.append(val_temp)
 	val_temp = []
 
-print(val_spatio2)
-print("********************")
-print(val_social2)
+arr = []
+
+# social gets 2/3 and spatio gets 1/3
+
+result1 = csv.writer(open("social_results1.csv","w"))
+result2 = csv.writer(open("spatio_results1.csv","w"))
+
+for val in val_social2:
+	first_arr = val[0]
+	result1.writerow([first_arr[0]])
+	for index in range(0,len(val)):
+		if(val[index][0] != first_arr[0]):
+			result1.writerow([val[index][0],(val[index][1])])
+
+for val in val_spatio2:
+	first_arr = val[0]
+	result2.writerow([first_arr[0]])
+	for index in range(0,len(val)):
+		if(val[index][0] != first_arr[0]):
+			result2.writerow([val[index][0],(val[index][1])])
+
+result = csv.writer(open("combinedresult.csv","w"))
+
+for i in range(0,len(val_spatio2)):
+	arr = val_spatio2[i]
+	first_val = arr[0]
+	for j in range(0,len(val_social2)):
+		arr1 = val_social2[j]
+		first_val1 = arr1[0]
+		if(first_val[0] == first_val1[0]):
+			result.writerow([first_val[0]])
+			for val in arr:
+				for val1 in arr1:
+					if(len(val) == 1 or len(val1) == 1):
+						pass
+					if(val[0] == first_val[0] or val1[0] == first_val1[0]):
+						pass
+					elif(val[0] == val1[0]):
+						result.writerow([val1[0],float(val[1])*1/3 + float(val1[1])*2/3])
+			
+
+
+
