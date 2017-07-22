@@ -1,0 +1,32 @@
+Original accuracy without reduction : 46.9301
+Total number of sensors without reduction = 83076
+
+Reduction performed on the basis of [5,2] and [7,3]
+
+For [5,2] :
+
+(spatio_weight,social_weight) = accuracy : Sensors left after reduction
+
+(0.1,0.9) = 44.7134 : 73007
+(0.2,0.8) = 44.2759 : 72632
+(0.3,0.7) = 44.2905 : 73237
+(0.4,0.6) = 44.3634 : 72680
+(0.5,0.5) = 44.7426 : 72701
+(0.6,0.4) = 44.3634 : 73387
+(0.7,0.3) = 44.8155 : 73315
+(0.8,0.2) = 44.6988 : 73214
+(0.9,0.1) = 44.1738 : 73105
+
+For [7,3] : 
+
+(spatio_weight,social_weight) = accuracy : Sensors left after reduction 
+
+(0.1,0.9) = 43.5467 : 64302
+(0.2,0.8) = 43.7947 : 65046
+(0.3,0.7) = 43.2988 : 64384
+(0.4,0.6) = 43.6197 : 64684
+(0.5,0.5) = 43.678  : 64328
+(0.6,0.4) = 43.2842 : 62748
+(0.7,0.3) = 43.2113 : 64357
+(0.8,0.2) = 44.3343 : 65421
+(0.9,0.1) = 43.8092 : 65235
